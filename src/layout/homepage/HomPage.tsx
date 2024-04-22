@@ -1,8 +1,8 @@
 import React from "react";
-import List from "../products/List";
+import DanhSachSanPham from "../products/DanhSachSanPham";
 const HomePage = () => {
     return (
-        <List />
+        <DanhSachSanPham />
     );
 }
 

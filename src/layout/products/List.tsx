@@ -1,8 +1,12 @@
 import React from "react";
 import Book from "../../Model/Book";
 import BookProp from "./component/BookProp";
+import { layToanBoSach } from "../../api/SachApi";
 
 const List: React.FC = () => {
+
+    layToanBoSach().then(sachData=>{
+    }).catch();
     const books: Book[] = [
         {
             id: 1,
