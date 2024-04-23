@@ -1,14 +1,6 @@
 import React from "react";
 import SachModel from "../Model/SachModel";
-
-export async function Request_api(url:string) {
-    const response = await fetch(url);
-    if(!response.ok){
-        throw new Error("Có lối xảy ra");   
-    }
-    // trả về dữ liệu mảng json
-    return response.json();
-}
+import { Request_api } from "./Request_api";
 
 export async function layToanBoSach():Promise<SachModel[]> {
     const ketQua:SachModel[] = [];

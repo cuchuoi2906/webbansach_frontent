@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SachModel from "../../../Model/SachModel";
+import HinhAnhModel from "../../../Model/HinhAnhModel";
+import { getImageBySachId } from "../../../api/HinhAnhApi";
+import { error } from "console";
 
 interface SachPropInterface{
     sach:SachModel;
@@ -7,11 +10,50 @@ interface SachPropInterface{
 
 const SachProps:React.FC<SachPropInterface> = (props)=>{
     const sachs = props.sach;
+
+    const [hinhAnh,setHinhAnh] = useState<HinhAnhModel[]>([]);
+    const [dangTaiDuLieu,setDangTaiDuLieu] = useState(true);
+    const [coLoi,setCoLoi] = useState(null);
+
+    useEffect(()=>{
+        getImageBySachId(sachs.maSach).then(
+            hinhAnh =>{
+                console.log(hinhAnh);
+                setHinhAnh(hinhAnh);
+                setDangTaiDuLieu(false);
+            }
+        ).catch(
+            error =>{
+                setDangTaiDuLieu(false);
+                setCoLoi(error.message);
+            }
+        );
+    },[]);
+
+    if(dangTaiDuLieu){
+        return(
+            <div>
+                <h1>Đang tải dữ liệu</h1>
+            </div>
+        );
+    }
+    if(coLoi){
+        return(
+            <div><h1>Gặp lỗi: {coLoi}</h1></div>
+        );
+    }
+
+    let urlImg:string = "";
+    if(hinhAnh[0] && hinhAnh[0].duLieuAnh){
+        urlImg = hinhAnh[0].duLieuAnh;
+    }
+
+    
     return(
         <div className="col-md-3 mt-2">
             <div className="card">
                 <img
-                    src={""}
+                    src={urlImg}
                     className="card-img-top"
                     alt={props.sach.tenSach}
                     style={{ height: '200px' }}
