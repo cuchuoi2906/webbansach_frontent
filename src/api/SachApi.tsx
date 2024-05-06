@@ -33,7 +33,7 @@ async function laySach(urlSach: string): Promise<KetQuaInterface> {
     return { ketQua: ketQua, tongSoSach: tongSoTrang, tongSoTrang: tongSoTrang };
 }
 
-export async function layToanBoSach(trang): Promise<KetQuaInterface> {
+export async function layToanBoSach(trang:number): Promise<KetQuaInterface> {
     // Xác định endpoint
     const urlSach: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=${trang}`;
     return laySach(urlSach);
