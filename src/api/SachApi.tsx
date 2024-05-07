@@ -38,3 +38,11 @@ export async function layToanBoSach(trang:number): Promise<KetQuaInterface> {
     const urlSach: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=${trang}`;
     return laySach(urlSach);
 }
+export async function timKiemSach(tuKhoaTimKiem:string):Promise<KetQuaInterface>{
+    // Xác định endpoint
+    let duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=0`;
+    if (tuKhoaTimKiem !== '') {
+        duongDan=`http://localhost:8080/sach/search/findByTenSachContaining?sort=maSach,desc&size=8&page=0&tenSach=${tuKhoaTimKiem}`
+    }
+    return laySach(duongDan);
+} 

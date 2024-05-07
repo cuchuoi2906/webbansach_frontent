@@ -1,8 +1,12 @@
 import React from "react";
 import DanhSachSanPham from "../products/DanhSachSanPham";
-const HomePage = () => {
+
+interface HomePageProp{
+    tuKhoaTimKiem:string;
+}
+const HomePage:React.FC<HomePageProp> = (props) => {
     return (
-        <DanhSachSanPham />
+        <DanhSachSanPham tuKhoaTimKiem={props.tuKhoaTimKiem} />
     );
 }
 

@@ -1,28 +1,43 @@
 import React, { useEffect, useState } from "react";
 import SachProps from "./component/SachProps";
 import SachModel from "../../Model/SachModel";
-import { layToanBoSach } from "../../api/SachApi";
+import { layToanBoSach,timKiemSach } from "../../api/SachApi";
 import { Paginations } from "../../utils/Paginations";
-
-const DanhSachSanPham: React.FC = () => {
+interface DanhSachSanPhamProp {
+    tuKhoaTimKiem:string;
+}
+const DanhSachSanPham: React.FC<DanhSachSanPhamProp> = (props) => {
     const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<SachModel[]>([]);
     const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
     const [baoLoi, setBaoLoi] = useState(null);
     const [trangHienTai, setTrangHienTai] = useState(1);
     const [tongSoTrang, setTongSoTrang] = useState(0);
-
+    let tuKhoaTimKiem = props.tuKhoaTimKiem;
     useEffect(() => {
-        layToanBoSach(trangHienTai - 1).then(kp => {
-            setDanhSachQuyenSach(kp.ketQua);
-            setDangTaiDuLieu(false);
-            setTongSoTrang(kp.tongSoTrang);
-        }).catch(
-            error => {
+        if(tuKhoaTimKiem != ''){
+            timKiemSach(tuKhoaTimKiem).then(kp => {
+                    setDanhSachQuyenSach(kp.ketQua);
+                    setDangTaiDuLieu(false);
+                    setTongSoTrang(kp.tongSoTrang);
+                }).catch(
+                error1 => {
+                    setDangTaiDuLieu(false);
+                    setBaoLoi(error1.message);
+                }
+            );
+        }else{
+            layToanBoSach(trangHienTai - 1).then(kp => {
+                setDanhSachQuyenSach(kp.ketQua);
                 setDangTaiDuLieu(false);
-                setBaoLoi(error.message);
-            }
-        );
-    }, [trangHienTai]); // [] chỉ gọi 1 lần
+                setTongSoTrang(kp.tongSoTrang);
+            }).catch(
+                error => {
+                    setDangTaiDuLieu(false);
+                    setBaoLoi(error.message);
+                }
+            );
+        }
+    }, [trangHienTai,tuKhoaTimKiem]); // [] chỉ gọi 1 lần
 
     if (dangTaiDuLieu) {
         return (
